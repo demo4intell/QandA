@@ -8,12 +8,12 @@
 	}
 	
 %>
-<h1>Manage FAQ Categories</h1>
+<h2>Manage FAQ Categories</h2>
 <% 	String prefix = GUIDUtil.getPrefix("com.apress.faq.app.FaqCategory");
 	String addCategoryURL = URLUtil.getObjectURL(prefix, "create");
 	current = (FaqUser) session.getAttribute("u");
 	for( FaqCategory category : faqs.getCategories() ) { %>
-<p>
+<p class="item">
 	<a href='<%= URLUtil.getObjectURL( category.getUid(), "read" ) %>'>
 		<%=category.getName() %>
 	</a><% if( current != null && current.hasSelectedCategory( category.getUid() ) ) { %>&check;<%}%>

@@ -27,7 +27,7 @@
 		tempCat = cat;	
 %>
 
-<h1><%= cat == null ? "New Category" : "Edit Category Details" %></h1>
+<h2><%= cat == null ? "New Category" : "Edit Category Details" %></h2>
 <% if( messages != null ) { 
 	for( String m : messages.split("@") ) {
 %>

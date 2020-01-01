@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" import="com.apress.faq.app.*, com.apress.faq.util.*, java.util.*" %>
 <%! FaqAppUtilManager faqs = FaqAppUtilManager.getCategoriesSingleton(); %>
-<h1>Manage Users List</h1>
+<h2>Manage Users List</h2>
 <%
 	ArrayList<FaqUser> users = faqs.getUsers();
 	if( users.size() == 0 ) {

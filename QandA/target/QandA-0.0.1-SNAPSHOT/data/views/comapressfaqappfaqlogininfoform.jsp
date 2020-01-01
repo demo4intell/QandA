@@ -18,50 +18,32 @@
 			+ "&type=changePassword";
 	
 %>
-<h1><%= type.equals("login") ? "Sign into the FAQ System" : "Reset Password" %></h1>
+<h2><%= type.equals("login") ? "Sign into the FAQ System" : "Reset Password" %></h2>
 
 <% if( messages != null ) { 
 	for( String m : messages.split("@") ) {
 %>
 	<h2><%= m %></h2>
 <% } } %>
-
-<form action='<%=submitURL%>' method='POST'>
-
-<table>
-	<% if( type.equals("login") ) { %>
-	<tr>
-		<td align='left'>Login Name:</td>
-		<td align='right'>
-			<input type="text" name="loginId" length="30"/>
-		</td>
-	</tr>
-	<% } else { %>
-	<input type='hidden' name='loginId' value='<%= loginId %>'/>
-	<input type='hidden' name='type' value='ChangePassword'/>
-	
-	<tr>		
-		<td align='left'>Old Password:</td>
-		<td align='right'>
-			<input type='password' name='oldPassword' length='32'/>
-		</td>
-	</tr>
-	<% } %>
-	<tr>					
-		<td align='left'>Password:</td>
-		<td align='right'>
-			<input type="password" name="password" length='30'/>
-		</td>				
-	</tr>
-</table>
-
-<p>
-	<input type='submit' value='Submit'/>
-	<input type='reset' value='Reset'/>
-</p>
-</form>
-<% if( type.equals("changePassword") ) {
-	String cancelURL = URLUtil.getObjectURL(useruid, "read");
-%>
-<p><a href='<%= cancelURL%>'>Cancel</a></p>
-<% } %>
+<div>
+	<form action='<%=submitURL%>' method='POST'>
+		<% if( type.equals("login") ) { %>
+		<label>Login Name:</label>
+		<input type="text" name="loginId" length="30"/>
+		<% } else { %>
+		<input type='hidden' name='loginId' value='<%= loginId %>'/>
+		<input type='hidden' name='type' value='ChangePassword'/>		
+		<label>Old Password:</label>
+		<input type='password' name='oldPassword' length='32'/>
+		<% } %>					
+		<label>Password:</label>
+		<input type="password" name="password" length='30'/>
+		<input type='submit' value='Submit'/>
+		<input type='reset' value='Reset'/>
+	</form>
+		<% if( type.equals("changePassword") ) {
+			String cancelURL = URLUtil.getObjectURL(useruid, "read");
+		%>
+		<p><a href='<%= cancelURL%>'>Cancel</a></p>
+		<% } %>
+</div>

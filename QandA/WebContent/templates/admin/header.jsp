@@ -1,22 +1,46 @@
 <%@page import="com.apress.faq.app.*, com.apress.faq.util.*, com.apress.faq.common.*"%>
-<p><a href='<%= URLUtil.getPageURL( "categories-list.jsp" ) %>'>Home</a>
-&nbsp;&nbsp;<a href='<%= URLUtil.getPageURL( "users-list.jsp" ) %>'>Users List</a></p>
+<%!
+	public boolean isUserLoggedIn( User u ) {
+		return u != null;
+	}
+
+	public String getURL( String type ) {
+		if( type.equals("registerURL") )
+			return URLUtil.getObjectURL( FaqAppUtilManager.getPrefix( FaqUser.class ), "create" );
+		if( type.equals("loginURL") )
+			return URLUtil.getObjectURL( FaqAppUtilManager.getPrefix( FaqLoginInfo.class ), "create" );
+		if( type.equals("logoutURL") )
+			return URLUtil.getPageURL("logout.jsp");
+		if( type.equals("homeURL") )
+			return URLUtil.getPageURL( "categories-list.jsp" );
+		if( type.equals("usersListURL") )
+			return URLUtil.getPageURL( "users-list.jsp" );
+		return "";			
+	}
+	
+	public String getURL( String type, User u ) {
+		if( type.equals("profileURL") ) {
+			if( u != null ) {
+				return URLUtil.getObjectURL( u.getUid(), "read" );
+			}
+		}
+		return "";
+	}
+%>
 <%
 	FaqUser u = (FaqUser) session.getAttribute("u");
-	String registerURL = URLUtil.getObjectURL( FaqAppUtilManager.getPrefix( FaqUser.class ), "create" );
-	String loginURL = URLUtil.getObjectURL( FaqAppUtilManager.getPrefix( FaqLoginInfo.class ), "create" );
-	String logoutURL = URLUtil.getPageURL("logout.jsp");
-	
-	if( u == null ) {
+	boolean isUserLoggedIn = isUserLoggedIn(u);			
 %>
-	<p>
-		<a href="<%= registerURL %>">Sign Up</a>
-		&nbsp;&nbsp;<a href="<%= loginURL %>">Login</a>
-	</p>
-<%
-	} else {
-		String profileURL = URLUtil.getObjectURL( u.getUid(), "read" );
-%>
-	<p>Welcome <%= u.getLoginName() %>&nbsp;&nbsp;View your&nbsp;<a href='<%= profileURL %>'>profile</a>&nbsp;&nbsp;<a href='<%= logoutURL %>'>Logout</a>
-<% 	} %>
-<hr/>
+	<div class="start">
+		<a href='<%= getURL("homeURL")  %>'>Home</a>
+		<a href='<%= getURL("usersListURL") %>'>Users List</a>
+		
+	</div>
+	<div class="list">
+		<a href="<%= getURL( "registerURL" ) %>">Sign Up</a>
+		<a href="<%= getURL( "loginURL" ) %>">Login</a>
+		<% if( isUserLoggedIn ) { %>
+			<p>Welcome <%= u.getLoginName() %>.&nbsp;View your&nbsp;<a href='<%= getURL( "profileURL", u ) %>'>profile</a>.</p>
+			<a href='<%= getURL( "logoutURL" ) %>'>Logout</a>
+		<% } %>
+	</div>

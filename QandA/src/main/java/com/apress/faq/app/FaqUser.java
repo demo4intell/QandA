@@ -12,6 +12,7 @@ public class FaqUser extends User implements MetaInterface {
 
 	private String[] topics;
 	private ArrayList<FaqCategory> categories = new ArrayList<FaqCategory>();
+	private ArrayList<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
 	
 	public FaqUser() {
 		this.uid = GUIDUtil.getUID( FaqUser.class.getName() );

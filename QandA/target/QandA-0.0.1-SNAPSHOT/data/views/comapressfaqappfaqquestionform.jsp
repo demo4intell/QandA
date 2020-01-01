@@ -35,7 +35,7 @@
 		tempQues = ques;	
 %>
 
-<h1><%= ques == null ? "New Question" : "Edit Question Details" %></h1>
+<h2><%= ques == null ? "New Question" : "Edit Question Details" %></h2>
 <% if( messages != null ) { 
 	for( String m : messages.split("@") ) {
 %>

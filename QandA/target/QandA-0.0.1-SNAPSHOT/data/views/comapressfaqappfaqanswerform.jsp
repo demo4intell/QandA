@@ -37,7 +37,7 @@
 		tempAns = ans;	
 %>
 
-<h1><%= ans == null ? "New Answer" : "Edit Answer Details" %></h1>
+<h2><%= ans == null ? "New Answer" : "Edit Answer Details" %></h2>
 <% if( messages != null ) { 
 	for( String m : messages.split("@") ) {
 %>

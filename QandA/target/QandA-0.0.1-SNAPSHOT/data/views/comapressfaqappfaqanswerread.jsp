@@ -24,7 +24,7 @@
 	String editURL = ans.getObjectURL(oid, "edit");
 	session.setAttribute("sessionanswer", null);
 %>
-<h1>Answer Details</h1>
+<h2>Answer Details</h2>
 <%
 	if( message != null ) {
 %>

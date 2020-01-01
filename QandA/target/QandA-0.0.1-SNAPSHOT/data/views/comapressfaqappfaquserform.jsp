@@ -26,65 +26,40 @@
 	if( tempUser == null )
 		tempUser = user;	
 %>
-<h1><%= user == null ? "Register User" : "Edit User Profile" %></h1>
+<h2><%= user == null ? "Register User" : "Edit User Profile" %></h2>
 <% if( messages != null ) { 
 	for( String m : messages.split("@") ) {
 %>
 	<h2><%= m %></h2>
 <% } } %>
 <form action='<%=submitURL%>' method='POST'>
-	<table>
-		<tr>
-			<td align='left'>First Name:</td>
-			<td align='right'>
-				<input type="text" name="firstName" length="30" value='<%= tempUser != null && tempUser.getFirstName() != null ? tempUser.getFirstName() : "" %>'/>
-			</td>
-		</tr>
-		<tr>					
-			<td align='left'>Surname:</td>
-			<td align='right'>
-				<input type="text" name="surname" length="30" value='<%= tempUser != null && tempUser.getSurname() != null ? tempUser.getSurname() : "" %>'/>
-			</td>				
-		</tr>
-		<tr>
-			<td align='left'>Login Name:</td>
-			<td align='right'>
-				<% if( user == null ) { %><input type="text" name="loginName" length="30" value='<%= tempUser != null && tempUser.getLoginName() != null ? tempUser.getLoginName() : "" %>'/><% } else { %>
-					<%= user.getLoginName() %>
-			<% } %>
-			</td>
-		</tr>
-		<tr>
-			<td align='left'>Age:</td>
-			<td align='right'>
-				<input type="text" name="age" length="5" value='<%= tempUser != null && tempUser.getAge() > 0 ? tempUser.getAge() : "" %>'/>
-			</td>					
-		</tr>
-		<% if( user == null ) { %>
-		<tr>
-			<td align='left'>Password:</td>
-			<td align='right'>
-				<input type='password' name='password' length='32'/>
-			</td>
-		</tr>
-		<% } %>
-	</table>
-
-<%
-	for( FaqCategory cat : faqs.getCategories() ) {
-%>
-	<br/>
+	<label>First Name:</label>
+	<input type="text" name="firstName" length="30" value='<%= tempUser != null && tempUser.getFirstName() != null ? tempUser.getFirstName() : "" %>'/>
+	<label>Surname:</label>
+	<input type="text" name="surname" length="30" value='<%= tempUser != null && tempUser.getSurname() != null ? tempUser.getSurname() : "" %>'/>				
+	<label>Login Name:</label>
+	<% if( user == null ) { %>
+	<input type="text" name="loginName" length="30" value='<%= tempUser != null && tempUser.getLoginName() != null ? tempUser.getLoginName() : "" %>'/><% } else { %>
+	<%= user.getLoginName() %>
+	<% } %>
+	<label>Age:</label>
+	<input type="text" name="age" length="5" value='<%= tempUser != null && tempUser.getAge() > 0 ? tempUser.getAge() : "" %>'/>					
+	<% if( user == null ) { %>
+	<label>Password:</label>
+	<input type='password' name='password' length='32'/>
+	<% } %>
+	<%
+		for( FaqCategory cat : faqs.getCategories() ) {
+	%>
 	<input type='checkbox' name='topics' value='<%= cat.getUid() %>' <%= tempUser != null ? ( tempUser.hasSelectedCategory( cat.getUid() ) ? "checked" : "" ) : "" %> /><%= cat.getName() %>
-<%	}	%>
-	<p>
-		<input type='submit' value='Submit'/>
-		<input type='reset' value='Reset'/>
-	</p>
+	<%	}	%>
+	<input type='submit' value='Submit'/>
+	<input type='reset' value='Reset'/>
+	<% String cancelURL = "";
+		if( user == null )
+			cancelURL = URLUtil.getPageURL("categories-list.jsp");
+		else 
+			cancelURL = user.getObjectURL( user.getUid(), "read" );
+	%>
+	<a href='<%= cancelURL %>'><button>Cancel</button></a>
 </form>
-<% String cancelURL = "";
-	if( user == null )
-		cancelURL = URLUtil.getPageURL("categories-list.jsp");
-	else 
-		cancelURL = user.getObjectURL( user.getUid(), "read" );
-%>
-<p><a href='<%= cancelURL %>'>Cancel</a></p>

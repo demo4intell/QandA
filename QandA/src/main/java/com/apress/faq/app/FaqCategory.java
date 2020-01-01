@@ -17,6 +17,7 @@ public class FaqCategory implements MetaInterface {
 	private String name;
 	
 	private ArrayList<FaqQuestion> questions = new ArrayList<FaqQuestion>();
+	private ArrayList<TestQuestion> testQuestions = new ArrayList<TestQuestion>();
 	
 	public FaqCategory() {
 		this.uid = GUIDUtil.getUID( FaqCategory.class.getName() );		

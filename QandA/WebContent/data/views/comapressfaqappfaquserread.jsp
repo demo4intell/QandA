@@ -18,7 +18,7 @@
 	String resetPasswordURL = user.getActionURL(oid, "perform", "resetPassword");
 	session.setAttribute("sessionuser", null);
 %>
-<h1>User Details</h1>
+<h2>User Details</h2>
 <%
 	if( message != null ) {
 %>
