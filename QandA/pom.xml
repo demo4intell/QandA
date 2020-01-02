@@ -8,6 +8,7 @@
   <description>Questions and Answers</description>
   <build>
     <sourceDirectory>src</sourceDirectory>
+    <finalName>QandA</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
