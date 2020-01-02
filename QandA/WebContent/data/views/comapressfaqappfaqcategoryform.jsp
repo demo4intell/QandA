@@ -41,6 +41,12 @@
 				<input type="text" name="name" length="30" value='<%= tempCat != null && tempCat.getName() != null ? tempCat.getName() : "" %>'/>
 			</td>
 		</tr>
+		<tr>
+			<td align='left'>Image URL:</td>
+			<td align='right'>
+				<input type="text" name="imageURL" length="30" value='<%= tempCat != null && tempCat.getImageURL() != null ? tempCat.getImageURL() : "" %>'/>
+			</td>
+		</tr>
 
 	</table>
 	<p>

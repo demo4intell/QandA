@@ -11,6 +11,7 @@ import com.apress.faq.util.URLUtil;
 public class FaqUser extends User implements MetaInterface {
 
 	private String[] topics;
+	private int score;
 	private ArrayList<FaqCategory> categories = new ArrayList<FaqCategory>();
 	private ArrayList<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
 	
@@ -18,7 +19,14 @@ public class FaqUser extends User implements MetaInterface {
 		this.uid = GUIDUtil.getUID( FaqUser.class.getName() );
 	}
 	
+	public void setScore( int score ) {
+		this.score = score;
+	}
 	
+	public int getScore() {
+		return this.score;
+	}
+		
 	public void setTopics( String[] topics ) {
 		this.topics = topics;
 	}

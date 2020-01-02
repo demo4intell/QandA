@@ -14,8 +14,9 @@ public class Questionnaire implements MetaInterface {
 	private FaqUser createdBy;
 	private LocalDateTime created;
 	private String status = "Not Started"; //Not Taken, Started, Completed
+	private int credits;
 	
-	private ArrayList<FaqCategory> categories = new ArrayList<>();	
+	private ArrayList<FaqCategory> categories = new ArrayList<FaqCategory>();
 	public ArrayList<TestQuestion> questions = new ArrayList<TestQuestion>();
 		
 	public Questionnaire() {
@@ -32,6 +33,15 @@ public class Questionnaire implements MetaInterface {
 		// TODO Auto-generated method stub
 		return uid;
 	}
+	
+	public int getCredits() {
+		return this.credits;
+	}
+
+	public void setCredits(int credits) {
+		this.credits = credits;
+	}
+
 
 	@Override
 	public FaqUser getCreatedBy() {

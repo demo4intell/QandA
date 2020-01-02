@@ -35,6 +35,7 @@
 	int i = 0;
 %>
 <p>Category name is <%= cat.getName() %>.</p>
+<p>Image URL is <%= cat.getImageURL() %>.</p>
 
 <h2>Questions</h2>
 

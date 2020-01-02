@@ -15,6 +15,7 @@ public class FaqCategory implements MetaInterface {
 	private LocalDateTime created;
 	private FaqUser createdBy;
 	private String name;
+	private String imageURL;
 	
 	private ArrayList<FaqQuestion> questions = new ArrayList<FaqQuestion>();
 	private ArrayList<TestQuestion> testQuestions = new ArrayList<TestQuestion>();
@@ -29,6 +30,14 @@ public class FaqCategory implements MetaInterface {
 	
 	public String getName() {
 		return this.name;
+	}
+	
+	public void setImageURL( String imageURL ) {
+		this.imageURL = imageURL;
+	}
+	
+	public String getImageURL() {
+		return this.imageURL;
 	}
 
 	@Override
@@ -71,7 +80,8 @@ public class FaqCategory implements MetaInterface {
 	@Override
 	public void copy( MetaInterface item, MetaInterface alreadyExists ) {
 		FaqCategory c = (FaqCategory) item;
-		this.name = c.getName();			
+		this.name = c.getName();
+		this.imageURL = c.getImageURL();
 	}
 	
 	public void addQuestion( FaqQuestion q ) {

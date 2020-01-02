@@ -14,6 +14,8 @@ public class User implements MetaInterface {
 	private String loginName;
 	private int age;
 	private String password;
+	private String thumbnailURL;
+	
 	
 	private LocalDateTime created;
 	private User createdBy;
@@ -47,7 +49,15 @@ public class User implements MetaInterface {
 	public void setPassword( String password ) {
 		this.password = password;
 	}
+
+	public void setThumbnailURL( String thumbnailURL ) {
+		this.thumbnailURL = thumbnailURL;
+	}
 	
+	public String getThumbnailURL() {
+		return this.thumbnailURL;
+	}
+
 	public String getUid() {
 		return this.uid;
 	}
@@ -122,6 +132,7 @@ public class User implements MetaInterface {
 			this.password = u.getPassword();
 			this.loginName = u.getLoginName();
 		}
+		this.thumbnailURL = u.getThumbnailURL();
 	}
 
 	@Override
