@@ -94,24 +94,23 @@ public class FaqUser extends User implements MetaInterface {
 		ArrayList<String> errorMessages = new ArrayList<String>();
 		//if any of the fields empty send a message cannot be left empty
 		if( this.getFirstName() == null || this.getFirstName().length() == 0 )
-			errorMessages.add("First name cannot be empty.");
+			errorMessages.add("firstName:First name cannot be empty.");
 		if( this.getSurname() == null || this.getSurname().length() == 0 )
-			errorMessages.add("Surname cannot be empty.");
+			errorMessages.add("surname:Surname cannot be empty.");
 		if( this.getAge() > 100 || this.getAge() < 18 )
-			errorMessages.add("Age needs to be a number greater than or equal to 18.");
+			errorMessages.add("age:Age needs to be a number greater than or equal to 18.");
 		
 		if( alreadyExists == null ) {
 			if( this.getLoginName() == null || this.getLoginName().length() == 0 )
-				errorMessages.add("Login name cannot be empty.");
+				errorMessages.add("loginName:Login name cannot be empty.");
 			if( this.getPassword() == null || this.getPassword().length() == 0 )
-				errorMessages.add("Password cannot be empty.");
+				errorMessages.add("password:Password cannot be empty.");
 			FaqAppUtilManager faqs = FaqAppUtilManager.getCategoriesSingleton();
 			for( FaqUser u : faqs.getUsers() ) {
 				if( this.getLoginName() != null && this.getLoginName().equals(u.getLoginName()) )
-					errorMessages.add("Login Name already exists. Please choose another one.");
-			}			
-		}
-		
+					errorMessages.add("loginName:Login Name already exists. Please choose another one.");
+			}
+		}		
 		return errorMessages;		
 	}
 	

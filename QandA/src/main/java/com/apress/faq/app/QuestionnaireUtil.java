@@ -23,5 +23,21 @@ public class QuestionnaireUtil {
 	public void initApp() {
 		//read json file and initialize questions
 	}
+	
+	public void setQuestions( ArrayList<TestQuestion> questions ) {
+		this.questions = questions;
+	}
+	
+	public ArrayList<TestQuestion> getQuestions() {
+		return this.questions;
+	}
+	
+	public void addQuestion( TestQuestion question ) {
+		this.questions.add( question );
+	}
+	
+	public void removeQuestion( TestQuestion question ) {
+		this.questions.remove( question );
+	}
 
 }
