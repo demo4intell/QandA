@@ -1,21 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" import='com.apress.faq.app.*, com.apress.faq.util.*'%>
-<%! FaqAppUtilManager faqs = FaqAppUtilManager.getCategoriesSingleton();
-	FaqUser current = null;
-	
-	public boolean canAddCategory( ) {
-		return current != null;
+<%! 
+	public String getPrefix( Class classValue ) {
+		return GUIDUtil.getPrefix(classValue.getName());
+	}
+
+	public String getURL( String uid, String view ) {
+		return URLUtil.getObjectURL(uid, view);
+	}
+
+	public String getAddCategoryURL() {
+		return getURL( getPrefix( FaqCategory.class ), "create" );
 	}
 	
+	public boolean isUserLoggedIn( FaqUser u ) {
+		return u != null;
+	}
+
+	public boolean hasSelectedCategory( FaqUser u, String catUid ) {
+		return isUserLoggedIn( u ) && u.hasSelectedCategory(catUid);
+	}
 %>
 <h2>Manage FAQ Categories</h2>
-<% 	String prefix = GUIDUtil.getPrefix("com.apress.faq.app.FaqCategory");
-	String addCategoryURL = URLUtil.getObjectURL(prefix, "create");
-	current = (FaqUser) session.getAttribute("u");
-	for( FaqCategory category : faqs.getCategories() ) { %>
-<p class="item">
-	<a href='<%= URLUtil.getObjectURL( category.getUid(), "read" ) %>'>
-		<%=category.getName() %>
-	</a><% if( current != null && current.hasSelectedCategory( category.getUid() ) ) { %>&check;<%}%>
+<% 	
+	FaqAppUtilManager faqs = FaqAppUtilManager.getCategoriesSingleton();
+	FaqUser current = (FaqUser) session.getAttribute("u");
+	
+	for( FaqCategory category : faqs.getCategories() ) { 
+%>
+	<p class="item">
+		<a href='<%= getURL( category.getUid(), "read" ) %>'>
+			<%=category.getName() %>
+		</a>
+		<%= hasSelectedCategory( current, category.getUid() ) ? "&check;" : "" %>
 </p>
-<% } if( canAddCategory( ) ) { %><a href='<%= addCategoryURL %>'>Add Category</a><%}%>
+<% } 
+   if( isUserLoggedIn(current) ) { %>
+		<a href='<%= getAddCategoryURL() %>'>Add Category</a>
+<% }%>

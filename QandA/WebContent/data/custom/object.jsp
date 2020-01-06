@@ -1,37 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" import="com.apress.faq.app.*, com.apress.faq.util.*"%>
+<%!
+	public boolean isOidPrefix( String oid ) {
+		return ( oid.indexOf("-") == -1 );
+	}
 
-<%
-	String oid = request.getParameter("oid");
-	String view = request.getParameter("view");
-	String prefix = "";
-	if( view != null ) {
+	public String getParameter( String paramObject ) {
+		if( paramObject == null )
+			return "";
+		else
+			return paramObject;					
+	}
+	
+	public String getPrefix( String oid ) {
+		return isOidPrefix(oid) ? oid : oid.substring( 0, oid.indexOf("-") );
+	}
+	
+	public String getFormType( String view ) {
+		return view.endsWith("submit") ? "submit" : 
+			( view.equals("create") || view.equals("edit") ? "form" : "read" );
 		
-		prefix = oid.indexOf("-") == -1 ? oid : oid.substring( 0, oid.indexOf("-") );
-		System.out.println(">>prefix "+prefix);
+	}
+	
+	public String getBaseFile( String prefix, String view ) {
 		String baseFile = FaqAppUtilManager.getClass(prefix).replaceAll("\\.", "").toLowerCase();
-		String file = "";
-		switch( view ) {
-			case "create":
-			case "edit":
-			case "read":
-				file = view.equals("create") || view.equals("edit") ? "form" : "read";
-				baseFile = "../views/" + baseFile + file +".jsp";
-%>
-				<jsp:include page='<%= baseFile %>'>
-					<jsp:param name='prefix' value='<%= prefix %>'/>
-				</jsp:include>
-<%
-				break;
-			case "createsubmit":
-			case "editsubmit":
-				baseFile = "../views/" + baseFile + "submit.jsp";
-%>
-				<jsp:include page='<%= baseFile %>'>
-					<jsp:param name='prefix' value='<%= prefix %>'/>
-				</jsp:include>
-<%
-				break;
-		}
+		baseFile = "../views/" + baseFile + getFormType( view ) + ".jsp";
+		return baseFile;
 	}
 %>
+<%
+	String oid = getParameter( request.getParameter("oid") );
+	String view = getParameter( request.getParameter("view") );
+	String prefix = getPrefix( oid );
+%>
+<jsp:include page='<%= getBaseFile( prefix, view ) %>'>
+	<jsp:param name='prefix' value='<%= prefix %>'/>
+</jsp:include>

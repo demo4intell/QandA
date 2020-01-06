@@ -6,5 +6,5 @@
 %>
 <jsp:forward page='../../page.jsp'>
 	<jsp:param name='viewtype' value='file'/>
-	<jsp:param name="file" value="categories-list.jsp"/>
+	<jsp:param name="file" value=""/>
 </jsp:forward>
