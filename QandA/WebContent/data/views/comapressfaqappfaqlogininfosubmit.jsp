@@ -1,19 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" import="com.apress.faq.app.*, com.apress.faq.util.*, com.apress.faq.common.*, java.util.*" %>
-<%! FaqAppUtilManager faqs = FaqAppUtilManager.getCategoriesSingleton();
-	String messages = "";
-	public void setErrorMessages( ArrayList<String> errorMessages ) {
+<%! 
+	public String setErrorMessages( ArrayList<String> errorMessages ) {
+		String messages = "";
 		for( String m : errorMessages ) {
 			messages += m +"@";
-		}		
+		}
+		return messages;
 	}
+	
+	public String getParameter( String paramObject ) {
+		if( paramObject == null )
+			return "";
+		else
+			return paramObject;					
+	}
+
 %>
 <%
-	String view = request.getParameter("view");
-	String type = request.getParameter("type");
-	String useruid = request.getParameter("useruid");
-	if( type == null )
-		type = "login";
+	FaqAppUtilManager faqs = FaqAppUtilManager.getCategoriesSingleton();
+	
+	String view = getParameter( request.getParameter("view") );
+	String type = getParameter( request.getParameter("type") );
+	type = type.equals("") ? "login" : type;
+	
+	String useruid = getParameter( request.getParameter("useruid") );
 	if( view.equals("createsubmit") ) {
 %>
 	<jsp:useBean id='l' scope='request' class='com.apress.faq.app.FaqLoginInfo'>
@@ -23,17 +34,15 @@
 	
 <%
 		l.postCreate(null);
-		messages = "";
-		setErrorMessages( l.validate( null ) );
-		System.out.println( messages );
+		String messages = setErrorMessages( l.validate( null ) );
 		if( messages.length() == 0 && l.getLoggedIn() != null ) {
 			if( type.equals("login") ) {
 				session.setAttribute("u", l.getLoggedIn() );
 %>
-			<jsp:forward page='../../page.jsp'>
-				<jsp:param name='viewtype' value='file'/>
-				<jsp:param name='messages' value='<%= messages %>'/>		
-			</jsp:forward>
+				<jsp:forward page='../../page.jsp'>
+					<jsp:param name='viewtype' value='file'/>
+					<jsp:param name='messages' value='<%= messages %>'/>		
+				</jsp:forward>
 <% 			} else {
 				l.getLoggedIn().setPassword( l.getPassword() );
 %>
