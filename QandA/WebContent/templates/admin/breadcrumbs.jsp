@@ -1,40 +1,30 @@
-<%@page import="com.apress.faq.app.*, com.apress.faq.util.*, com.apress.faq.common.*"%>
-<%!
-	public boolean isOidPrefix( String oid ) {
-		return ( oid.indexOf("-") == -1 );
-	}
-
-%>
+<%@page import="com.apress.faq.app.*, com.apress.faq.util.*, com.apress.faq.common.*, 
+java.util.*, javax.servlet.http.*"%>
 <%
 	FaqAppUtilManager faqs = FaqAppUtilManager.getCategoriesSingleton();
+	
 	if( viewType.equals("object") || viewType.equals("action") ) {
-		String oid = request.getParameter("oid");
-		String quesuid = request.getParameter("quesuid");
-		String catuid = request.getParameter("catuid");
+		String oid = getParameter( request.getParameter("oid") );
+		String quesuid = getParameter( request.getParameter("quesuid") );
+		String catuid = getParameter( request.getParameter("catuid") );
 		String objectType = "";
-		String homeURL = URLUtil.getPageURL( "categories-list.jsp" );
-%>
-<%
-		if( catuid != null ) {
-%>
-		<p>
-			<a href='<%= homeURL %>'>Home</a>&nbsp;
-<%
-			//question or answer
+		if( !getParameter( request.getParameter("catuid") ).equals("") ) {
 			FaqCategory cat = faqs.getCategoryObject(catuid);
 			String viewCatURL = cat.getObjectURL(catuid, "read");
 %>
-			&gt;&nbsp;<a href='<%= viewCatURL %>'>Category</a>&nbsp;
+			<p>
+				<a href='<%= getURL("homeURL") %>'>Home</a>&nbsp;&gt;&nbsp;
+				<a href='<%= viewCatURL %>'>Category</a>&nbsp;
 <%
-			if( quesuid != null ) {
-				FaqQuestion ques = cat.getQuestionObject(quesuid);
-				String viewQuesURL = ques.getObjectURL(quesuid, "read");
+				if( quesuid != null ) {
+					FaqQuestion ques = cat.getQuestionObject(quesuid);
+					String viewQuesURL = ques.getObjectURL(quesuid, "read");
 %>
-				&gt;&nbsp;<a href='<%= viewQuesURL %>'>Question</a>&nbsp;
+					&gt;&nbsp;<a href='<%= viewQuesURL %>'>Question</a>&nbsp;
 <%
-			}
+				}
 %>
-		</p>
+			</p>
 <%
 		}
 	}
