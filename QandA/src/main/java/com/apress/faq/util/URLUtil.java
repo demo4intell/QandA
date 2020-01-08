@@ -17,4 +17,8 @@ public class URLUtil {
 	public static String getActionURL( String oid, String view, String action ) {
 		return "page.jsp?viewtype=action&oid="+oid+"&view="+view+"&action="+action;
 	}
+	
+	public static String getActionURL( String oid, String view, String action, boolean isForm ) {
+		return "page.jsp?viewtype=action&oid="+oid+"&view="+view+"&action="+action+"&isForm="+isForm;
+	}
 }

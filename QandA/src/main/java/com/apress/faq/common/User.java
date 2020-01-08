@@ -14,7 +14,7 @@ public class User implements MetaInterface {
 	private String loginName;
 	private int age;
 	private String password;
-	private String thumbnailURL;
+	private String thumbnailURL = "";
 	
 	
 	private LocalDateTime created;
