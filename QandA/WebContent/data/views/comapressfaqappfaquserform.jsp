@@ -32,6 +32,10 @@
 		return "";
 	}
 	
+	public String getPageTitle( String view, String oid ) {
+		return !isEdit( view, oid ) ? "Register User" : "Edit User Profile";
+	}
+	
 	public boolean hasUserSelectedCategory( FaqUser u, String catuid ) {
 		return u != null ? u.hasSelectedCategory( catuid ) : false;
 	}
@@ -55,7 +59,7 @@
 	}
 	
 	public String getCancelURL( FaqUser u ) {
-		return u == null ? URLUtil.getPageURL("categories-list.jsp") : 
+		return u == null ? URLUtil.getPageURL("categories-list") : 
 			u.getObjectURL( u.getUid(), "read" );
 		
 	}
@@ -66,19 +70,14 @@
 
 	String oid = getParameter( request.getParameter("oid") );
 	String view = getParameter( request.getParameter("view") );
-	
-	//FaqUser sessionU = (FaqUser) session.getAttribute("sessionuser");
-	FaqUser requestU = (FaqUser) request.getAttribute("sessionuser");
-	boolean isEdit = isEdit( view, oid );
-	FaqUser user = getUser(view,oid);
-	
-	String submitURL = getSubmitURL( view, oid );
-	
 	String messages = getParameter( request.getParameter("messages") );
+	
+	FaqUser requestU = (FaqUser) request.getAttribute("requestuser");
+	FaqUser user = getUser(view,oid);
 	FaqUser tempUser = getTempUser( requestU, view, oid );	
 	
 %>
-<h2><%= !isEdit( view, oid ) ? "Register User" : "Edit User Profile" %></h2>
+<h2><%= getPageTitle( view, oid ) %></h2>
 
 <% if( !messages.equals("") ) { 
 	for( String m : messages.split("@") ) {
@@ -86,7 +85,7 @@
 	<h2><%= m %></h2>
 <% } }%>
 
-<form action='<%=submitURL%>' method='POST'>
+<form action='<%=getSubmitURL( view, oid )%>' method='POST'>
 	
 	<label>First Name:</label>
 	<input type="text" name="firstName" length="30" 
@@ -106,7 +105,11 @@
 	
 	<label>Age:</label>
 	<input type="text" name="age" length="5" 
-		value='<%= getValue( tempUser, "age" ) %>'/>					
+		value='<%= getValue( tempUser, "age" ) %>'/>
+		
+	<label>Thumbnail URL:</label>
+	<input type="text" name="thumbnailURL" length="255" 
+		value='<%= getValue( tempUser, "thumbnailURL" ) %>'/>
 	
 	<% if( user == null ) { %>
 		
@@ -122,6 +125,6 @@
 	
 	<input type='submit' value='Submit'/>
 	<input type='reset' value='Reset'/>
-	<a href='<%= getCancelURL(user) %>'><button>Cancel</button></a>
+	<a href='<%= getCancelURL(user) %>'>Cancel</a>
 
 </form>

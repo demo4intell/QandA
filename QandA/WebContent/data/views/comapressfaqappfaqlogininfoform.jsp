@@ -8,22 +8,40 @@
 			return paramObject;					
 	}
 
+	public String getType( String type ) {
+		return type.equals("") ? "login" : type;
+	}
+	
+	public String getURL( String urlType, String oid, String view, String type, String useruid ) {
+		switch( urlType ) {
+			case "submitURL":
+				return type.equals("login") ? URLUtil.getObjectURL(oid, view+"submit") : 
+					URLUtil.getActionURL( useruid, "performsubmit", "resetPassword") + 
+					"&type=changePassword";
+			case "cancelURL":
+				return type.equals("changePassword") ? URLUtil.getObjectURL(useruid, "read")
+						: URLUtil.getPageURL("landing");
+			default:
+				return "";
+		}
+	}
+	
+	public String getPageTitle( String type ) {
+		return type.equals("login") ? "Sign into the FAQ System" : "Reset Password";
+	}
+
 %>
     
 <%
 	String oid = getParameter( request.getParameter("oid") );
 	String view = getParameter( request.getParameter("view") );
-	String type = getParameter( request.getParameter("type") );
-	type = type.equals("") ? "login" : "";
-	
+	String type = getType( getParameter( request.getParameter("type") ) );	
 	String messages = getParameter( request.getParameter("messages") );
 	String useruid = getParameter( request.getParameter("useruid") );
 	String loginId = getParameter( request.getParameter("loginId") );
 	
-	String submitURL = type.equals("login") ? URLUtil.getObjectURL(oid, view+"submit") : 
-		URLUtil.getActionURL( useruid, "performsubmit", "resetPassword") + "&type=changePassword";
 %>
-<h2><%= type.equals("login") ? "Sign into the FAQ System" : "Reset Password" %></h2>
+<h2><%= getPageTitle(type) %></h2>
 
 <% if( messages != null ) { 
 	for( String m : messages.split("@") ) {
@@ -32,7 +50,7 @@
 <% } } %>
 
 <div>
-	<form action='<%=submitURL%>' method='POST'>
+	<form action='<%=getURL( "submitURL", oid, view, type, useruid )%>' method='POST'>
 	
 		<% if( type.equals("login") ) { %>
 
@@ -54,9 +72,5 @@
 		<input type='reset' value='Reset'/>
 
 	</form>
-	<% if( type.equals("changePassword") ) {
-		String cancelURL = URLUtil.getObjectURL(useruid, "read");
-	%>
-	<p><a href='<%= cancelURL%>'>Cancel</a></p>
-	<% } %>
+	<p><a href='<%= getURL("cancelURL", oid, view, type, useruid )%>'>Cancel</a></p>
 </div>

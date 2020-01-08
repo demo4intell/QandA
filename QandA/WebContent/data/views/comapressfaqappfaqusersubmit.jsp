@@ -42,7 +42,7 @@
 <%
 	requestUser.updateCategoryTopics();
 	//session.setAttribute( "sessionuser", requestUser );
-	request.setAttribute("sessionuser", requestUser);
+	request.setAttribute("requestuser", requestUser);
 	String messages = setErrorMessages( requestUser.validate( user ) );
 	if( messages.length() == 0 ) {
 		if( user != null ) {
@@ -52,7 +52,7 @@
 			requestUser.postCreate(requestUser);
 		}
 		//session.setAttribute("sessionuser", null);
-		request.setAttribute("sessionuser", null);
+		request.setAttribute("requestuser", null);
 %>
 	<jsp:forward page='../../page.jsp'>
 		<jsp:param value='read' name='view'/>

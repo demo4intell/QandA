@@ -18,6 +18,10 @@
 				return user.getObjectURL(user.getUid(), "edit");
 			case "resetPasswordURL":
 				return user.getActionURL(user.getUid(), "perform", "resetPassword");
+			case "deactivateURL":
+				return user.getActionURL( user.getUid(), "perform", "deactivate" );
+			case "reactivateURL":
+				return user.getActionURL( user.getUid(), "perform", "reactivate" );
 			default:
 				return "";
 		}
@@ -32,9 +36,7 @@
 	FaqUser user = faqs.getUserObject(oid);
 	FaqUser current = (FaqUser) session.getAttribute("u");
 	
-	String editURL = user.getObjectURL(oid, "edit");
-	String resetPasswordURL = user.getActionURL(oid, "perform", "resetPassword");
-	session.setAttribute("sessionuser", null);
+	session.setAttribute("requestuser", null);
 %>
 <h2>User Details</h2>
 <%
@@ -43,18 +45,24 @@
 	<h2><%= message %></h2>
 <%
 	}
-	if( isCurrentUser( current, user ) ) {
+	if( isCurrentUser( current, user ) && current.getStatus().equals("Active") ) {
 %>
 	
 <p><a href='<%= getURL( "editURL", user ) %>'>Edit User</a></p>
 <p><a href='<%= getURL( "resetPasswordURL", user ) %>'>Reset Password</a></p>
-<%
-	}
-%>
+<% if( user.getStatus().equals("Active") && !current.getLoginName().equals("admin") ) { %>
+	<p><a href='<%= getURL( "deactivateURL", user ) %>'>Deactivate Account</a></p>
+<% } } %>
+<% if( user.getStatus().equals("Inactive") && current.getLoginName().equals("admin") ) { %>
+	<p><a href='<%= getURL( "reactivateURL", user ) %>'>Reactivate Account</a></p>
+<% } %>
+
 <p>First name is <%= user.getFirstName() %>.</p>
 <p>Last name is <%= user.getSurname() %>.</p>
 <p>Login name is <%= user.getLoginName() %>.</p>
 <p>Age is <%= user.getAge() %>.</p>
+<p>Thumbnail URL is <%= user.getThumbnailURL() %>.</p>
+<p>Status is <%= user.getStatus() %></p>
 <p>You selected these topics:</p>
 <%
 	if( user.getCategoryTopics().size() == 0 ) {

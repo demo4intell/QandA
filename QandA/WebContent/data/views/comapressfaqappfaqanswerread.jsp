@@ -1,28 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" import="com.apress.faq.app.*, com.apress.faq.util.*, java.util.ArrayList"%>
 <%!
-	FaqAppUtilManager faqs = FaqAppUtilManager.getCategoriesSingleton();
-	FaqCategory cat = null;
-	FaqQuestion ques = null;
-	FaqAnswer ans = null;
-	FaqUser current = null;
-	
-	public boolean isCurrentUser( ) {
+	public boolean isCurrentUser( FaqUser current ) {
 		return current != null;
 	}
+
+	public String getParameter( String paramObject ) {
+		if( paramObject == null )
+			return "";
+		else
+			return paramObject;					
+	}
+	
+	public String getURL( String type, FaqAnswer ans ) {
+		String ansuid = ans.getUid();
+		switch( type ) {
+			case "editURL":
+				return ans.getObjectURL( ansuid, "edit" );
+			case "deleteURL":
+				return ans.getActionURL( ansuid, "perform", "delete" );
+			default:
+				return "";
+		}
+	}
+
 %>
 <%
-	String oid = request.getParameter("oid");
-	String catuid = request.getParameter("catuid");
-	String quesuid = request.getParameter("quesuid");
+	String oid = getParameter( request.getParameter("oid") );
+	String catuid = getParameter( request.getParameter("catuid") );
+	String quesuid = getParameter( request.getParameter("quesuid") );	
+	String message = getParameter( request.getParameter("message") );
 	
-	String message = request.getParameter("message");
-	cat = faqs.getCategoryObject(catuid);
-	ques = cat.getQuestionObject(quesuid);
-	ans = ques.getAnswerObject(oid);
-	current = (FaqUser) session.getAttribute("u");
-	String editURL = ans.getObjectURL(oid, "edit");
-	session.setAttribute("sessionanswer", null);
+	FaqAppUtilManager faqs = FaqAppUtilManager.getCategoriesSingleton();
+	FaqCategory cat = faqs.getCategoryObject(catuid);
+	FaqQuestion ques = cat.getQuestionObject(quesuid);
+	FaqAnswer ans = ques.getAnswerObject(oid);
+	FaqUser current = (FaqUser) session.getAttribute("u");
+	request.setAttribute("requestanswer", null);
 %>
 <h2>Answer Details</h2>
 <%
@@ -31,10 +45,11 @@
 	<h2><%= message %></h2>
 <%
 	}
-	if( isCurrentUser() ) {
+	if( isCurrentUser( current ) && current.getStatus().equals("Active") ) {
 %>
 	
-<p><a href='<%= editURL%>'>Edit Answer</a></p>
+<p><a href='<%= getURL("editURL", ans ) %>'>Edit Answer</a></p>
+<p><a href='<%= getURL("deleteURL", ans ) %>'>Delete Answer</a></p>
 <%
 	}
 	int i = 0;

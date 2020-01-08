@@ -1,24 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" import="com.apress.faq.app.*, com.apress.faq.util.*, java.util.ArrayList"%>
 <%!
-	FaqAppUtilManager faqs = FaqAppUtilManager.getCategoriesSingleton();
-	FaqCategory cat = null;
-	FaqQuestion ques = null;
-	FaqUser current = null;
-	
-	public boolean isCurrentUser( ) {
+	public boolean isCurrentUser( FaqUser current ) {
 		return current != null;
 	}
+
+	public String getParameter( String paramObject ) {
+		if( paramObject == null )
+			return "";
+		else
+			return paramObject;					
+	}
+
+	public String getURL( String type, FaqQuestion ques ) {
+		String quesuid = ques.getUid();
+		switch( type ) {
+			case "editURL":
+				return ques.getObjectURL( quesuid, "edit" );
+			case "addAnswerURL":
+				return ques.getActionURL(ques.getUid(), "perform", "addAnswer");
+			case "deleteURL":
+				return ques.getActionURL( ques.getUid(), "perform", "delete" );
+			default:
+				return "";
+		}
+	}
+	
+	public String getURL( String type, FaqAnswer answer ) {
+		String ansuid = answer.getUid();
+		switch( type ) {
+			case "readURL":
+				return answer.getObjectURL(ansuid, "read");
+			case "deleteURL":
+				return answer.getActionURL(ansuid, "perform", "delete");				
+			default:
+				return "";
+		}
+	}
+
 %>
 <%
-	String oid = request.getParameter("oid");
-	String catuid = request.getParameter("catuid");
-	String message = request.getParameter("message");
-	cat = faqs.getCategoryObject(catuid);
-	ques = cat.getQuestionObject(oid);
-	current = (FaqUser) session.getAttribute("u");
-	String editURL = ques.getObjectURL(oid, "edit");
-	String addAnswerURL = ques.getActionURL(oid, "perform", "addAnswer");
+	String oid = getParameter( request.getParameter("oid") );
+	String catuid = getParameter( request.getParameter("catuid") );
+	String message = getParameter( request.getParameter("message") );
+	
+	FaqAppUtilManager faqs = FaqAppUtilManager.getCategoriesSingleton();
+	FaqCategory cat = faqs.getCategoryObject(catuid);
+	FaqQuestion ques = cat.getQuestionObject(oid);
+	FaqUser current = (FaqUser) session.getAttribute("u");
+	
 	session.setAttribute("sessionquestion", null);
 %>
 <h1>Question Details</h1>
@@ -28,11 +58,12 @@
 	<h2><%= message %></h2>
 <%
 	}
-	if( isCurrentUser() ) {
+	if( isCurrentUser( current ) && current.getStatus().equals("Active") ) {
 %>
 	
-<p><a href='<%= editURL%>'>Edit Question</a></p>
-<p><a href='<%= addAnswerURL%>'>Add Answer</a></p>
+<p><a href='<%= getURL( "editURL", ques ) %>'>Edit Question</a></p>
+<p><a href='<%= getURL( "addAnswerURL", ques )%>'>Add Answer</a></p>
+<p><a href='<%= getURL( "deleteURL", ques )%>'>Delete Question</a></p>
 <%
 	}
 	int i = 0;
@@ -50,15 +81,17 @@
 <%
 	for( FaqAnswer a : ques.getAnswers() ) {
 		i++;
-		String viewAnswerURL = a.getObjectURL(a.getUid(), "read");
 %>
 	<tr>
 		<td><%= i %></td>
 		<td><%= a.getText() %></td>
 		<td>
-			<a href='<%= viewAnswerURL %>'>View</a>
+			<a href='<%= getURL("readURL", a ) %>'>View</a>
 			&nbsp;&nbsp;
-			<a href=''>Delete</a></td>
+			<% if( isCurrentUser( current ) && current.getStatus().equals("Active") ) { %>
+				<a href='<%= getURL( "deleteURL", a )%>'>Delete</a>
+			<% } %>
+		</td>
 	</tr>
 
 <%
