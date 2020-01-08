@@ -110,7 +110,7 @@ public class FaqQuestion implements MetaInterface {
 		// TODO Auto-generated method stub
 		ArrayList<String> errorMessages = new ArrayList<String>();
 		if( DataUtil.isEmptyString( this.getText() ) )
-			errorMessages.add("Question text cannot be empty.");
+			errorMessages.add("text:Question text cannot be empty.");
 		return errorMessages;
 	}
 	
@@ -121,7 +121,11 @@ public class FaqQuestion implements MetaInterface {
 	
 	@Override
 	public String getActionURL( String oid, String view, String action ) {
-		return URLUtil.getActionURL( oid, view, action ) + "&catuid=" + this.getCategory().getUid();
+		String returnURL = "&catuid=" + this.getCategory().getUid();
+		//if( action.equals("delete") )
+			//return URLUtil.getActionURL( oid, view, action, false ) + returnURL;
+		//else
+			return URLUtil.getActionURL( oid, view, action ) + returnURL;
 	}
 
 }

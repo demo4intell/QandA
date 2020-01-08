@@ -15,7 +15,7 @@ public class FaqCategory implements MetaInterface {
 	private LocalDateTime created;
 	private FaqUser createdBy;
 	private String name;
-	private String imageURL;
+	private String imageURL = "";
 	
 	private ArrayList<FaqQuestion> questions = new ArrayList<FaqQuestion>();
 	private ArrayList<TestQuestion> testQuestions = new ArrayList<TestQuestion>();
@@ -109,15 +109,14 @@ public class FaqCategory implements MetaInterface {
 		// TODO Auto-generated method stub
 		ArrayList<String> errorMessages = new ArrayList<String>();
 		if( DataUtil.isEmptyString( this.getName() ) )
-			errorMessages.add("Name cannot be empty.");
+			errorMessages.add("name:Name cannot be empty.");
 		else {
 			FaqCategory e = (FaqCategory) alreadyExists;
 			FaqCategory cat = FaqAppUtilManager.getCategoriesSingleton().getCategoryByName(this.name); 
 			if( ( cat != null && e == null ) || 
 					( cat != null && e != null && !e.getName().equals( cat.getName() ) ) )
-				errorMessages.add("Category exists already with this name. Please try another one.");
-		}
-			
+				errorMessages.add("name:Category exists already with this name. Please try another one.");
+		}			
 		return errorMessages;
 	}
 	
@@ -128,6 +127,9 @@ public class FaqCategory implements MetaInterface {
 	
 	@Override
 	public String getActionURL( String oid, String view, String action ) {
-		return URLUtil.getActionURL( oid, view, action );
+		//if( action.equals("delete") )
+			//return URLUtil.getActionURL( oid, view, action, false );
+		//else
+			return URLUtil.getActionURL( oid, view, action );
 	}
 }

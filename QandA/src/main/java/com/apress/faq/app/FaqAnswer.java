@@ -99,7 +99,13 @@ public class FaqAnswer implements MetaInterface {
 	
 	@Override
 	public String getActionURL( String oid, String view, String action ) {
-		return URLUtil.getActionURL( oid, view, action ) + "&quesuid=" + this.getQuestion().getUid() + "&catuid=" + this.getQuestion().getCategory().getUid();
+		String returnURL = "&quesuid=" + this.getQuestion().getUid() + "&catuid=" + this.getQuestion().getCategory().getUid(); 
+		//if( action.equals("delete"))
+			//returnURL = URLUtil.getActionURL( oid, view, action, false ) + returnURL;
+		//else
+			returnURL = URLUtil.getActionURL( oid, view, action ) + returnURL;
+		return returnURL;
+			
 	}
 
 }

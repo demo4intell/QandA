@@ -10,6 +10,7 @@ import com.apress.faq.util.URLUtil;
 
 public class FaqUser extends User implements MetaInterface {
 
+	private String status = "Pending";
 	private String[] topics;
 	private int score;
 	private ArrayList<FaqCategory> categories = new ArrayList<FaqCategory>();
@@ -17,6 +18,14 @@ public class FaqUser extends User implements MetaInterface {
 	
 	public FaqUser() {
 		this.uid = GUIDUtil.getUID( FaqUser.class.getName() );
+	}
+	
+	public void setStatus( String status ) {
+		this.status = status;
+	}
+	
+	public String getStatus() {
+		return this.status;
 	}
 	
 	public void setScore( int score ) {
@@ -121,7 +130,10 @@ public class FaqUser extends User implements MetaInterface {
 	
 	@Override
 	public String getActionURL( String oid, String view, String action ) {
-		return URLUtil.getActionURL( oid, view, action );
+		//if( action.equals("delete") || action.equals("deactivate") || action.equals("reactivate") )
+			//return URLUtil.getActionURL( oid, view, action, false );
+		//else
+			return URLUtil.getActionURL( oid, view, action );
 	}
 
 
