@@ -103,6 +103,11 @@ public class LoginInfo implements MetaInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public void delete() {
+		//nothing to perform
+	}
 
 	@Override
 	public String getObjectURL(String oid, String view) {

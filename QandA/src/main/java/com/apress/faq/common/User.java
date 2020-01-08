@@ -3,6 +3,7 @@ package com.apress.faq.common;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import com.apress.faq.app.FaqAppUtilManager;
 import com.apress.faq.util.*;
 
 
@@ -139,6 +140,11 @@ public class User implements MetaInterface {
 	public ArrayList<String> validate( MetaInterface alreadyExists ) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public void delete() {
+		//do nothing here override in FaqUser FaqAppUtilManager.getCategoriesSingleton().getUsers().remove(this);
 	}
 
 	@Override

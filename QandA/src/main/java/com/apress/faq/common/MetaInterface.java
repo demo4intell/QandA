@@ -15,6 +15,7 @@ public interface MetaInterface {
 	public void setCreated( LocalDateTime created );
 	
 	public ArrayList<String> validate( MetaInterface alreadyExists );
+	public void delete();
 	
 	public void postCreate( User u );
 	
