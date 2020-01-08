@@ -44,6 +44,14 @@ public class FaqUser extends User implements MetaInterface {
 		return this.topics;
 	}
 	
+	public void setQuestionnaires( ArrayList<Questionnaire> questionnaires ) {
+		this.questionnaires = questionnaires;
+	}
+	
+	public ArrayList<Questionnaire> getQuestionnaires() {
+		return this.questionnaires;
+	}
+	
 	public void addCategory( FaqCategory cat ) {
 		this.categories.add(cat);
 	}
@@ -121,6 +129,11 @@ public class FaqUser extends User implements MetaInterface {
 			}
 		}		
 		return errorMessages;		
+	}
+	
+	@Override
+	public void delete() {
+		FaqAppUtilManager.getCategoriesSingleton().getUsers().remove(this);
 	}
 	
 	@Override

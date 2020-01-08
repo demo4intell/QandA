@@ -121,6 +121,19 @@ public class FaqCategory implements MetaInterface {
 	}
 	
 	@Override
+	public void delete() {
+		for( FaqQuestion q : questions ) {
+			for( FaqAnswer a : q.getAnswers() ) {
+				a.setQuestion(null);
+			}
+			q.getAnswers().clear();
+			q.setCategory(null);			
+		}
+		this.getQuestions().clear();
+		FaqAppUtilManager.getCategoriesSingleton().getCategories().remove(this);
+	}
+	
+	@Override
 	public String getObjectURL( String oid, String view ) {
 		return URLUtil.getObjectURL(oid, view);
 	}

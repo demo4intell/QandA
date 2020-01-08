@@ -80,6 +80,11 @@ public class Questionnaire implements MetaInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public void delete() {
+		this.getCreatedBy().getQuestionnaires().remove(this);
+	}
 
 	@Override
 	public void postCreate(User u) {

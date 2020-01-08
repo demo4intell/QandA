@@ -93,6 +93,12 @@ public class FaqAnswer implements MetaInterface {
 	}
 	
 	@Override
+	public void delete() {
+		this.getQuestion().removeAnswer(this);
+		this.setQuestion(null);
+	}
+	
+	@Override
 	public String getObjectURL( String oid, String view ) {
 		return URLUtil.getObjectURL(oid, view) + "&quesuid=" + this.getQuestion().getUid() + "&catuid=" + this.getQuestion().getCategory().getUid();
 	}
