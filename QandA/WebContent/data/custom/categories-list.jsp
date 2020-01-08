@@ -20,8 +20,24 @@
 	public boolean hasSelectedCategory( FaqUser u, String catUid ) {
 		return isUserLoggedIn( u ) && u.hasSelectedCategory(catUid);
 	}
+	
+	public String getParameter( String paramObject ) {
+		if( paramObject == null )
+			return "";
+		else
+			return paramObject;					
+	}
+
 %>
 <h2>Manage FAQ Categories</h2>
+<%
+	String message = getParameter( request.getParameter("message") );
+	if( message.length() > 0 ) {
+%>
+	<h2><%= message %></h2>
+<%
+	}
+%>
 <% 	
 	FaqAppUtilManager faqs = FaqAppUtilManager.getCategoriesSingleton();
 	FaqUser current = (FaqUser) session.getAttribute("u");
