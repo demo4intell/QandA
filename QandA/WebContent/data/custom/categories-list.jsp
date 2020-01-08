@@ -35,6 +35,6 @@
 		<%= hasSelectedCategory( current, category.getUid() ) ? "&check;" : "" %>
 </p>
 <% } 
-   if( isUserLoggedIn(current) ) { %>
+   if( isUserLoggedIn(current) && current.getStatus().equals("Active") ) { %>
 		<a href='<%= getAddCategoryURL() %>'>Add Category</a>
 <% }%>

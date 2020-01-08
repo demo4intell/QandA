@@ -17,7 +17,8 @@
 			<td>Login Name</td>
 			<td>First Name</td>
 			<td>Surname</td>
-			<td>Age</td>			
+			<td>Age</td>
+			<td>Status</td>			
 		</tr>
 <%
 		for( FaqUser user : users ) {
@@ -28,6 +29,7 @@
 				<td><%= user.getFirstName() %></td>
 				<td><%= user.getSurname() %></td>
 				<td><%= user.getAge() %></td>
+				<td><%= user.getStatus() %></td>
 			</tr>				
 <%		
 		}
