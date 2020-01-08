@@ -5,6 +5,7 @@
 %>
 	<div class="start">
 		<a href='<%= getURL("homeURL") %>'>Home</a>
+		<a href='<%= getURL("catListURL") %>'>Categories List</a>
 		<% if( isUserLoggedIn ) { %>
 		<a href='<%= getURL("usersListURL") %>'>Users List</a>
 		<% } %>

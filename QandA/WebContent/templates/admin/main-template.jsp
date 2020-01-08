@@ -11,10 +11,12 @@
 				return URLUtil.getObjectURL( FaqAppUtilManager.getPrefix( FaqLoginInfo.class ), "create" );
 			case "logoutURL":
 				return URLUtil.getPageURL("logout");
-			case "homeURL":
+			case "catListURL":
 				return URLUtil.getPageURL( "categories-list" );
 			case "usersListURL":
 				return URLUtil.getPageURL( "users-list" );
+			case "homeURL":
+				return URLUtil.getPageURL("landing");
 			default:
 				return "";
 		}
@@ -60,8 +62,9 @@
 			</header>
 			<main>
 				<% String viewType = getParameter( request.getParameter("viewtype") );
-				String file = "../../data/custom/" + ( viewType.equals("file") ? 
-							getParameter( request.getParameter("file") ) : viewType ) +".jsp";
+				String file = getParameter( request.getParameter("file") );
+				file = "../../data/custom/" + ( viewType.equals("file") ? 
+							file : viewType ) +".jsp";
 				%>
 				<%@ include file="breadcrumbs.jsp" %>
 				<jsp:include page='<%= file %>' />				
